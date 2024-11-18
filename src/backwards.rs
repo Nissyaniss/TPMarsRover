@@ -18,48 +18,43 @@ impl Backwards {
 }
 
 impl Handler for Backwards {
-	fn handle(&mut self, mars: &mut Mars, mut commands: &str) {
-		if commands.chars().nth(0).unwrap() == self.identifier {
-			let rover_posistion = mars.get_rover().get_position();
-			let rover_direction = mars.get_rover().get_orientation();
-			let new_position;
-			match rover_direction {
+	fn handle(&mut self, mars: &mut Mars, commands: &mut String) {
+		if !commands.is_empty() && commands.chars().nth(0).unwrap() == self.identifier {
+			let rover_posistion = mars.rover.get_position();
+			let rover_direction = mars.rover.get_orientation();
+			let new_position = match rover_direction {
 				Direction::N => {
 					if rover_posistion.get_y() == 0 {
-						new_position = Point::new(rover_posistion.get_x(), mars.get_height());
+						Point::new(rover_posistion.get_x(), mars.get_height())
 					} else {
-						new_position =
-							Point::new(rover_posistion.get_x(), rover_posistion.get_y() - 1);
+						Point::new(rover_posistion.get_x(), rover_posistion.get_y() - 1)
 					}
 				}
 				Direction::E => {
 					if rover_posistion.get_x() == 0 {
-						new_position = Point::new(mars.get_width(), rover_posistion.get_y());
+						Point::new(mars.get_width(), rover_posistion.get_y())
 					} else {
-						new_position =
-							Point::new(rover_posistion.get_x() - 1, rover_posistion.get_y());
+						Point::new(rover_posistion.get_x() - 1, rover_posistion.get_y())
 					}
 				}
 				Direction::S => {
 					if rover_posistion.get_y() == mars.get_height() {
-						new_position = Point::new(rover_posistion.get_x(), 0);
+						Point::new(rover_posistion.get_x(), 0)
 					} else {
-						new_position =
-							Point::new(rover_posistion.get_x(), rover_posistion.get_y() + 1);
+						Point::new(rover_posistion.get_x(), rover_posistion.get_y() + 1)
 					}
 				}
 				Direction::W => {
 					if rover_posistion.get_x() == mars.get_width() {
-						new_position = Point::new(0, rover_posistion.get_y());
+						Point::new(0, rover_posistion.get_y())
 					} else {
-						new_position =
-							Point::new(rover_posistion.get_x() + 1, rover_posistion.get_y());
+						Point::new(rover_posistion.get_x() + 1, rover_posistion.get_y())
 					}
 				}
-			}
-			mars.get_rover().set_position(new_position);
+			};
+			mars.rover.set_position(new_position);
+			commands.remove(0);
 		}
-		commands = &commands[1..];
 	}
 
 	fn next(&mut self) -> &mut Option<Box<dyn Handler>> {

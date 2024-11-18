@@ -1,15 +1,15 @@
-use crate::{mars::Mars, rover::Rover};
+use crate::mars::Mars;
 
 pub trait Handler {
-	fn execute(&mut self, rover: &mut Mars, commands: &str) {
-		self.handle(rover, commands);
+	fn execute(&mut self, mars: &mut Mars, commands: &mut String) {
+		self.handle(mars, commands);
 
 		if let Some(next) = &mut self.next() {
-			next.execute(rover, commands);
+			next.execute(mars, commands);
 		}
 	}
 
-	fn handle(&mut self, rover: &mut Mars, commands: &str);
+	fn handle(&mut self, mars: &mut Mars, commands: &mut String);
 	fn next(&mut self) -> &mut Option<Box<dyn Handler>>;
 }
 

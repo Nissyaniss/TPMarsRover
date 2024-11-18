@@ -4,7 +4,7 @@ pub struct Mars {
 	grid: Vec<Vec<Cell>>,
 	height: u32,
 	width: u32,
-	rover: Rover,
+	pub rover: Rover,
 }
 
 impl Mars {
@@ -20,15 +20,11 @@ impl Mars {
 		}
 	}
 
-	pub fn get_rover(&self) -> Rover {
-		self.rover
-	}
-
-	pub fn get_height(&self) -> u32 {
+	pub const fn get_height(&self) -> u32 {
 		self.height
 	}
 
-	pub fn get_width(&self) -> u32 {
+	pub const fn get_width(&self) -> u32 {
 		self.width
 	}
 }

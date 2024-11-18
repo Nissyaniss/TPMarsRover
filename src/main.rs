@@ -25,6 +25,7 @@ fn main() {
 	let rover_direction = Direction::N;
 	let rover_position = Point::new(0, 0);
 	let rover = Rover::new(rover_position, rover_direction);
+	let mut commands = String::from("ffrff");
 
 	let mut mars = Mars::new(100, 100, rover);
 	let right = Right::default();
@@ -32,10 +33,19 @@ fn main() {
 	let left = Left::new(backward);
 	let mut forward = Forward::new(left);
 
-	forward.handle(&mut mars, "ffrff");
 	println!(
-		"x = {}, y = {} ",
-		mars.get_rover().get_position().get_x(),
-		mars.get_rover().get_position().get_y()
+		"x = {}, y = {}, commands = {} ",
+		mars.rover.get_position().get_x(),
+		mars.rover.get_position().get_y(),
+		commands
 	);
+	while !commands.is_empty() {
+		forward.execute(&mut mars, &mut commands);
+		println!(
+			"x = {}, y = {}, commands = {} ",
+			mars.rover.get_position().get_x(),
+			mars.rover.get_position().get_y(),
+			commands
+		);
+	}
 }
